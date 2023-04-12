@@ -153,6 +153,22 @@ func (s *S3) close() {
 func (s *S3) upload(fileKey string) (err error) {
 	logger := logger.Tag(s.providerName())
 
+	// TODO rotated here
+	lst, err := s.list("20")
+	if len(lst) >= 3 {
+		target := lst[0]
+		for _, v := range lst {
+			if v.Filename < target.Filename {
+				target = v
+			}
+		}
+		err := s.delete(target.Filename)
+		if err != nil {
+			return fmt.Errorf("failed to upload file, %v", err)
+		}
+		logger.Infof("-> Rotated ( %s )...", target.Filename)
+	}
+
 	var fileKeys []string
 	if len(s.fileKeys) != 0 {
 		// directory
@@ -226,10 +242,10 @@ func (s *S3) upload(fileKey string) (err error) {
 }
 
 func (s *S3) delete(fileKey string) (err error) {
-	remotePath := filepath.Join(s.path, fileKey)
+	// remotePath := filepath.Join(s.path, fileKey)
 	input := &s3.DeleteObjectInput{
 		Bucket: aws.String(s.bucket),
-		Key:    aws.String(remotePath),
+		Key:    aws.String(fileKey),
 	}
 	_, err = s.client.S3.DeleteObject(input)
 	return

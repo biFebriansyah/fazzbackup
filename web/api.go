@@ -19,7 +19,7 @@ import (
 	"github.com/stoicperlman/fls"
 )
 
-//go:embed dist
+// go:embed dist
 var staticFS embed.FS
 var logFile *os.File
 
