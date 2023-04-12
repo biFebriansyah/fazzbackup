@@ -7,7 +7,7 @@ type curl > /dev/null || { echo "curl: not found"; exit 1; }
 set -e
 
 get_latest_release() {
-  local repo="biFebriansyah/fazzbackup"
+  local repo="$1"
 	curl -sSL "https://api.github.com/repos/${repo}/releases/latest" | \
     awk 'BEGIN{FS=": |,|\""}; /tag_name/{print $5}'
 }
@@ -53,6 +53,6 @@ else
   sudo mv "${bin}" "${dest_dir}"
 fi
 
-mkdir -p ~/.fazzbackup
+mkdir -p ~/.gobackup
 
 echo "${bin} ${version} has been installed."
