@@ -58,7 +58,7 @@ func main() {
 	app := cli.NewApp()
 
 	app.Version = version
-	app.Name = "gobackup"
+	app.Name = "fazzbackup"
 	app.Usage = usage
 
 	daemon.AddCommand(daemon.StringFlag(signal, "quit"), syscall.SIGQUIT, termHandler)
@@ -89,9 +89,9 @@ func main() {
 			Usage: "Start as daemon",
 			Flags: buildFlags([]cli.Flag{}),
 			Action: func(ctx *cli.Context) error {
-				fmt.Println("GoBackup starting...")
+				fmt.Println("FazzBackup starting...")
 
-				args := []string{"gobackup", "run"}
+				args := []string{"fazzbackup", "run"}
 				if len(configFile) != 0 {
 					args = append(args, "--config", configFile)
 				}
@@ -121,7 +121,7 @@ func main() {
 		},
 		{
 			Name:  "run",
-			Usage: "Run GoBackup",
+			Usage: "Run FazzBackup",
 			Flags: buildFlags([]cli.Flag{}),
 			Action: func(ctx *cli.Context) error {
 				initApplication()
