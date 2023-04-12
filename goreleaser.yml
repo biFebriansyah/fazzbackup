@@ -1,5 +1,5 @@
 builds:
-  - binary: gobackup
+  - binary: fazzbackup
     env:
       - CGO_ENABLED=0
     ldflags: -s -w -X main.version={{.Version}}
